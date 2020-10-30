@@ -17,8 +17,8 @@ function clearInput($input) {
 		'&nbsp;' => '',
 		'&copy;' => '',
 		'<br clear="all">' => '',
-		'</b>' => '</b> ', // ensure whitespace
-		'</i>' => '</i> ', // ensure whitespace
+		'>/span>' => '></span>', // fix broken code
+		'& ' => '&amp; ',
 	));
 
 	//$output = substr_replace($output, '', 0, strpos($output, '<div class="TitleDocument"')-1);
@@ -50,6 +50,9 @@ function clearInput($input) {
 		'#<font.+</font>#Ums' => '',
 		'#<!- NACHALO NA TYXO.BG.+KRAI NA TYXO.BG BROYACH -->#ms' => '',
 		'#<noscript>.+</noscript>#ms' => '',
+		'#&(\w)#' => '&amp;$1',
+
+		'#</(b|i)>([^ ,.-])#' => '</$1> $2', // ensure whitespace
 	);
 	foreach ($replacements as $regexp => $replacement) {
 		$output = preg_replace($regexp, $replacement, $output);

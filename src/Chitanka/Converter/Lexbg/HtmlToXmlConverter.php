@@ -1,4 +1,8 @@
-<?php
+<?php namespace Chitanka\Converter\Lexbg;
+
+use Chitanka\Converter\XmlIsInvalid;
+use \SimpleXMLElement;
+use Chitanka\Converter\XmlErrorHandler;
 
 class HtmlToXmlConverter {
 

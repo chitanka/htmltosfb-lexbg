@@ -8,7 +8,7 @@ if (!file_exists($tmpDir)) {
 }
 try {
 	run($urls, $tmpDir);
-} catch (XmlIsInvalid $e) {
+} catch (\Chitanka\Converter\XmlIsInvalid $e) {
 	echo $e->getFormattedErrors();
 	exit(1);
 }
@@ -35,7 +35,7 @@ function fetchUrl(string $url, string $tmpDir) {
 }
 
 function test(string $htmlFile, string $tmpDir) {
-	$xml = (new HtmlToXmlConverter())->convert(file_get_contents($htmlFile));
-	$sfb = (new XmlToSfbConverter($tmpDir))->convert($xml);
+	$xml = (new \Chitanka\Converter\Lexbg\HtmlToXmlConverter())->convert(file_get_contents($htmlFile));
+	$sfb = (new \Chitanka\Converter\Lexbg\XmlToSfbConverter($tmpDir))->convert($xml);
 	return $sfb;
 }

@@ -1,7 +1,7 @@
 <?php
 require __DIR__.'/autoload.php';
 
-$urls = require __DIR__.'/urls.php';
+$urls = require __DIR__.'/data/urls.php';
 $tmpDir = __DIR__.'/tmp';
 
 if (!file_exists($tmpDir)) {

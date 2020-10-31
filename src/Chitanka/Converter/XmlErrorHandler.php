@@ -35,7 +35,7 @@ class XmlErrorHandler {
 		$lines = array_filter([
 			self::lineSeparator(),
 			explode("\n", $xml)[$error->line - 1],
-			str_repeat(' ', $error->column - 2) . '^',
+			str_repeat(' ', max(0, $error->column - 2)) . '^',
 			$errorMap[$error->level] . ' ' . $error->code . ': '. trim($error->message),
 			"  Line: $error->line",
 		]);

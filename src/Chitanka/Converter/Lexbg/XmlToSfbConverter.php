@@ -24,7 +24,7 @@ class XmlToSfbConverter {
 
 	public function convert(string $xml) {
 		try {
-			$doc = new SimpleXMLElement($xml);
+			$doc = new SimpleXMLElement($xml, LIBXML_PARSEHUGE);
 		} catch (\Exception $e) {
 			throw new XmlIsInvalid($xml, $e);
 		}

@@ -26,16 +26,31 @@ class HtmlToXmlConverter {
 			'<br><div>' => '<div>',
 			'<br>' => '<br/>',
 			'<BR>' => '<br/>',
+			'<HR>' => '<hr/>',
 			' id="DocumentTitle"' => '',
 			'&nbsp;' => '',
 			'&copy;' => '',
 			'<br clear="all">' => '',
+			'<BR clear=all>' => '',
+			'<BR style="PAGE-BREAK-BEFORE: always" clear=all>' => '',
+			'<BR style="PAGE-BREAK-BEFORE: auto" clear=all>' => '',
 			'>/span>' => '></span>', // fix broken code
-			'</b>SUP>' => '</b><SUP>', // fix broken code
+			'>/SPAN>' => '></SPAN>', // fix broken code
+			'</b>SPAN ' => '</b><SPAN ', // fix broken code
+			'</b>/B>' => '</b></B>',
+			'</b>/STRONG>' => '</b></STRONG>',
+			'</b>/P>' => '</b></P>',
+			'>SUP>' => '><SUP>', // fix broken code
+			'>/TD>' => '></TD>', // fix broken code
 			'& ' => '&amp; ',
-			'<=' => '&lt;=',
-			'< ' => '&lt; ',
 			' >=' => ' &gt;=',
+			'=<C<' => '=&lt;C&lt;',
+			'<...>' => '&lt;...&gt;',
+			' style="VERTICAL-ALIGN: baseline; punctuation-wrap: simple"' => '', // part of a p tag
+			' style="VERTICAL-ALIGN: middle"' => '', // part of a p tag
+			' style="FONT-SIZE: 12pt"' => '', // part of a span tag
+			' style="COLOR: black"' => '', // part of a span tag
+			'noWrap>' => '>', // Specification mandates value for attribute
 		));
 
 		//$output = substr_replace($output, '', 0, strpos($output, '<div class="TitleDocument"')-1);
@@ -68,11 +83,17 @@ class HtmlToXmlConverter {
 			'#<!- NACHALO NA TYXO.BG.+KRAI NA TYXO.BG BROYACH -->#ms' => '',
 			'#<noscript>.+</noscript>#Ums' => '',
 			'#&(\w)#' => '&amp;$1',
+			'#<(\d)#' => '&lt;$1',
 			// put quotes around attributes without any
-			'# (id|class|width|height|cellSpacing|cellPadding|border|align|rowSpan|colSpan|lang|color)=([^"][^ >]*)#' => ' $1="$2"',
+			'# (id|class|width|height|cellSpacing|cellPadding|border|align|vAlign|rowSpan|colSpan|lang|color|size|SIZE|dateTime|name|type)=([^"][^ >]*)#' => ' $1="$2"',
 
 			'#</(b|i)>([^ ,.-])#' => '</$1> $2', // ensure whitespace
-			'#<img ([^>]+[^/])>#' => '<img $1/>', // all tags must close
+			'#<(img|hr) ([^>]+[^/])>#i' => '<$1 $2/>', // all tags must close
+			'#<([^a-zA-Z/])#' => '&lt;$1',
+			'#<BR [^>]+>#' => '<br/>',
+			'#<P>(<SUP><SPAN>\d+</SPAN></SUP>[^<]+)</SPAN></P>#U' => '<p>$1</p>', // fix a superfluous span
+			'#<SPAN>([^<]+)</p>#' => '$1</p>', // fix a superfluous span
+			'#<P>([^<]+)</SPAN>#' => '<P>', // fix a superfluous span
 		);
 		foreach ($replacements as $regexp => $replacement) {
 			$output = preg_replace($regexp, $replacement, $output);

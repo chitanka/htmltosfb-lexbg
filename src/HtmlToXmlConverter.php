@@ -23,6 +23,7 @@ class HtmlToXmlConverter {
 			'&copy;' => '',
 			'<br clear="all">' => '',
 			'>/span>' => '></span>', // fix broken code
+			'</b>SUP>' => '</b><SUP>', // fix broken code
 			'& ' => '&amp; ',
 			'<=' => '&lt;=',
 			' >=' => ' &gt;=',
@@ -58,7 +59,7 @@ class HtmlToXmlConverter {
 			'#<!- NACHALO NA TYXO.BG.+KRAI NA TYXO.BG BROYACH -->#ms' => '',
 			'#<noscript>.+</noscript>#Ums' => '',
 			'#&(\w)#' => '&amp;$1',
-			'# (class|width|cellSpacing|cellPadding|border|align|rowSpan|colSpan|lang)=([^"][^ >]*)#' => ' $1="$2"', // put quotes around attributes without any
+			'# (class|width|cellSpacing|cellPadding|border|align|rowSpan|colSpan|lang|color)=([^"][^ >]*)#' => ' $1="$2"', // put quotes around attributes without any
 
 			'#</(b|i)>([^ ,.-])#' => '</$1> $2', // ensure whitespace
 			'#<img ([^>]+[^/])>#' => '<img $1/>', // all tags must close

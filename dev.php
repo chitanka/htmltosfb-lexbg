@@ -1,10 +1,14 @@
 <?php
 require __DIR__.'/autoload.php';
 
-$tmpDir = __DIR__.'/tmp';
 $urls = [
 	'https://www.lex.bg/bg/laws/ldoc/521957377',
 ];
+$tmpDir = __DIR__.'/tmp';
+
+if (!file_exists($tmpDir)) {
+	mkdir($tmpDir, 0775, true);
+}
 
 foreach ($urls as $url) {
 	echo '==> Converting ', $url, "\n";

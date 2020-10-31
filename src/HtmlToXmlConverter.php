@@ -67,8 +67,6 @@ class HtmlToXmlConverter {
 			$output = preg_replace($regexp, $replacement, $output);
 		}
 
-		$output = $this->fixDates($output);
-
 		return $output;
 	}
 
@@ -87,30 +85,6 @@ class HtmlToXmlConverter {
 			$output .= $child->asXML()."\n";
 		}
 		return '<doc>'.$output.'</doc>';
-	}
-
-	private function fixDates($input) {
-		$months = array(
-			'/(\d) Януари/' => '$1 януари',
-			'/(\d) Февруари/' => '$1 февруари',
-			'/(\d) Март/' => '$1 март',
-			'/(\d) Април/' => '$1 април',
-			'/(\d) Май/' => '$1 май',
-			'/(\d) Юни/' => '$1 юни',
-			'/(\d) Юли/' => '$1 юли',
-			'/(\d) Август/' => '$1 август',
-			'/(\d) Септември/' => '$1 септември',
-			'/(\d) Октомври/' => '$1 октомври',
-			'/(\d) Ноември/' => '$1 ноември',
-			'/(\d) Декември/' => '$1 декември',
-			'/(\d{4})г\./' => '$1 г.',
-		);
-		$output = $input;
-		foreach ($months as $regexp => $replacement) {
-			$output = preg_replace($regexp, $replacement, $output);
-		}
-
-		return $output;
 	}
 
 }

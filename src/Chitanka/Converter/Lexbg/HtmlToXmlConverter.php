@@ -85,7 +85,7 @@ class HtmlToXmlConverter {
 			'#&(\w)#' => '&amp;$1',
 			'#<(\d)#' => '&lt;$1',
 			// put quotes around attributes without any
-			'# (id|class|width|height|cellSpacing|cellPadding|border|align|vAlign|rowSpan|colSpan|lang|color|size|SIZE|dateTime|name|type)=([^"][^ >]*)#' => ' $1="$2"',
+			'# (id|class|width|height|cellSpacing|cellPadding|border|align|vAlign|rowSpan|colSpan|lang|color|size|SIZE|dateTime|name|type|face)=([^"][^ >]*)#' => ' $1="$2"',
 
 			'#</(b|i)>([^ ,.-])#' => '</$1> $2', // ensure whitespace
 			'#<(img|hr) ([^>]+[^/])>#i' => '<$1 $2/>', // all tags must close

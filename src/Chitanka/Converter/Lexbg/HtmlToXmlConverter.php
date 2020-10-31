@@ -34,6 +34,7 @@ class HtmlToXmlConverter {
 			'</b>SUP>' => '</b><SUP>', // fix broken code
 			'& ' => '&amp; ',
 			'<=' => '&lt;=',
+			'< ' => '&lt; ',
 			' >=' => ' &gt;=',
 		));
 

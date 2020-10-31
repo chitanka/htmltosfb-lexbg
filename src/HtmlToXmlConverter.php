@@ -59,7 +59,7 @@ class HtmlToXmlConverter {
 			'#<!- NACHALO NA TYXO.BG.+KRAI NA TYXO.BG BROYACH -->#ms' => '',
 			'#<noscript>.+</noscript>#Ums' => '',
 			'#&(\w)#' => '&amp;$1',
-			'# (class|width|cellSpacing|cellPadding|border|align|rowSpan|colSpan|lang|color)=([^"][^ >]*)#' => ' $1="$2"', // put quotes around attributes without any
+			'# (id|class|width|cellSpacing|cellPadding|border|align|rowSpan|colSpan|lang|color)=([^"][^ >]*)#' => ' $1="$2"', // put quotes around attributes without any
 
 			'#</(b|i)>([^ ,.-])#' => '</$1> $2', // ensure whitespace
 			'#<img ([^>]+[^/])>#' => '<img $1/>', // all tags must close

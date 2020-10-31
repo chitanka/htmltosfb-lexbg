@@ -1,7 +1,9 @@
+#!/usr/bin/env php
 <?php
 if (!isset($argv[1])) {
 	echo <<<USAGE
 php $argv[0] <FILE.xml>
+
 USAGE;
 	exit(1);
 }

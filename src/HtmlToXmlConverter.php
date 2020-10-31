@@ -2,6 +2,10 @@
 
 class HtmlToXmlConverter {
 
+	public function __construct() {
+		XmlErrorHandler::register();
+	}
+
 	public function convert(string $html): string {
 		return $this->getCoreXmlStructure($this->clearInput($html));
 	}
@@ -59,7 +63,8 @@ class HtmlToXmlConverter {
 			'#<!- NACHALO NA TYXO.BG.+KRAI NA TYXO.BG BROYACH -->#ms' => '',
 			'#<noscript>.+</noscript>#Ums' => '',
 			'#&(\w)#' => '&amp;$1',
-			'# (id|class|width|cellSpacing|cellPadding|border|align|rowSpan|colSpan|lang|color)=([^"][^ >]*)#' => ' $1="$2"', // put quotes around attributes without any
+			// put quotes around attributes without any
+			'# (id|class|width|height|cellSpacing|cellPadding|border|align|rowSpan|colSpan|lang|color)=([^"][^ >]*)#' => ' $1="$2"',
 
 			'#</(b|i)>([^ ,.-])#' => '</$1> $2', // ensure whitespace
 			'#<img ([^>]+[^/])>#' => '<img $1/>', // all tags must close
@@ -72,7 +77,11 @@ class HtmlToXmlConverter {
 	}
 
 	private function getCoreXmlStructure($input) {
-		$html = new SimpleXMLElement($input);
+		try {
+			$html = new SimpleXMLElement($input);
+		} catch (\Exception $e) {
+			throw new XmlIsInvalid($input, $e);
+		}
 		$container = $html->xpath('//div[@class="boxi boxinb"]');
 
 		$output = '';

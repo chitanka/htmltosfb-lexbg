@@ -15,10 +15,15 @@ class XmlToSfbConverter {
 		if ($outputDir) {
 			$this->outputDir = rtrim($outputDir, '/') . '/';
 		}
+		XmlErrorHandler::register();
 	}
 
 	public function convert(string $xml) {
-		$doc = new SimpleXMLElement($xml);
+		try {
+			$doc = new SimpleXMLElement($xml);
+		} catch (\Exception $e) {
+			throw new XmlIsInvalid($xml, $e);
+		}
 		$this->lastRowWithGlava = $this->findLastRowWithGlava($doc);
 		$sfb = '';
 

@@ -3,16 +3,25 @@ require __DIR__.'/autoload.php';
 
 $urls = require __DIR__.'/data/urls.php';
 $tmpDir = __DIR__.'/tmp';
-
 if (!file_exists($tmpDir)) {
 	mkdir($tmpDir, 0775, true);
 }
+try {
+	run($urls, $tmpDir);
+} catch (XmlIsInvalid $e) {
+	echo $e->getFormattedErrors();
+	exit(1);
+}
 
-foreach ($urls as $url) {
-	echo '==> Converting ', $url, "\n";
-	$htmlFile = fetchUrl($url, $tmpDir);
-	echo "    File stored in {$htmlFile}\n";
-	test($htmlFile, $tmpDir);
+
+function run(array $urls, string $tmpDir) {
+	foreach ($urls as $url) {
+		echo '==> Converting ', $url, "\n";
+		$htmlFile = fetchUrl($url, $tmpDir);
+		echo "    File stored in {$htmlFile}\n";
+		$sfb = test($htmlFile, $tmpDir);
+		file_put_contents($htmlFile.'.sfb', $sfb);
+	}
 }
 
 function fetchUrl(string $url, string $tmpDir) {
